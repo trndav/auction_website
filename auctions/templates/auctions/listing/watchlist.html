@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="text-align: center">Watchlist</h2>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+
+        {% for item in watchlist_items %}
+    
+        <div class="listing_container">            
+            <table>                
+                <td>{% if item.listing.image %}
+                        <a href="{% url 'listing_detail' item.listing.id %}"><img src="{{ item.listing.image.url }}" style="width: 200px; height: 200px;" alt="Listing Image" class="img-fluid"></a><br>
+                    {% else %}
+                        <img src="/media/listing_images/no_image.jpg" alt="Default Image">
+                    {% endif %}
+                </td>                
+                <td class="table_margin" style="padding-left: 20px;">                     
+                    {% if user.is_authenticated %}
+                        {% if not item.listing.is_active %}                        
+                            <h5>[SOLD!] {{ item.listing.winner }} won this auction!</h5>
+                        {% endif %}
+                    {% endif %}  
+
+                    <h4><a href="{% url 'listing_detail' item.listing.id %}">{{ item.listing.title }}</a></h4>
+                    <b>Price: ${{ item.listing.start_bid }}</b></br>
+                    {{ item.listing.text }}<br>
+                    
+                    Category: <b>{{ item.listing.category.name }}</b>. Listing Id: {{ item.listing.id }}. Bids so far: <b>{{ item.listing.bid_count }}</b>
+                    
+                    <p class="created_at"><a href="#">{{ item.listing.user }}</a> created auction at: {{ item.listing.created_at }}</p>    
+                    <a href="{% url 'remove_from_watchlist' item.listing.id %}">Remove from Watchlist</a>
+                </td>
+            </table>
+        </div><br>
+        {% endfor %}
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="padding-left: 20px; padding-bottom: 10px;">All Listings</h2>    
+        {% for item in listings %}
+
+        {% if forloop.counter0|divisibleby:2 %}
+            <div class="row">
+        {% endif %}        
+        <div class="col-md-6" style="padding-bottom: 10px; padding-right: 10px; padding-left: 10px;">
+
+            <div class="listing_container">            
+                <table>                
+                    <td>
+                        {% if item.image %}
+                            <a href="/auctions/listing/{{ item.id }}"><img src="{{ item.image.url }}" style="width: 200px; height: 200px;" alt="Listing Image" class="img-fluid"></a><br>
+                        {% else %}
+                            <img src="/media/listing_images/no_image.jpg" alt="Default Image">
+                        {% endif %}
+                    </td>
+                    <td class="table_margin" style="padding-left: 10px;">
+                        {% if item.is_active %}
+                        <h4><a href="/auctions/listing/{{ item.id }}">{{ item.title }}</a></h4>
+                        {% else %}
+                        <h4><a href="/auctions/listing/{{ item.id }}">{{ item.title }}</a> - [Closed]</h4>
+                        {% endif %}
+                        <b>Price: ${{ item.start_bid }}</b></br>
+                        Listing Id: {{ item.id }}. {{ item.text }}<br>
+                        <p class="created_at">Created at: {{ item.created_at }}</p>
+                        
+                        <div style="display: flex;">
+                        {% if user.is_authenticated %}
+                        <form method="post" style="padding-right: 10px;" action="{% url 'listing_detail' item.pk %}">{% csrf_token %}<button type="submit" class="btn btn-primary btn-sm" value="Bid">Bid</button></form>
+                        <form method="post" action="{% url 'delete_listing' item.pk %}">
+                            {% csrf_token %}
+                            <button type="delete" class="btn btn-danger btn-sm">Delete Auction</button>
+                        </form>
+                        {% endif %}
+                    </div>     
+                    </td>
+                </table>
+            </div>            
+        </div>
+        <br>
+        {% if forloop.counter|divisibleby:2 or forloop.last %}
+            </div>
+        {% endif %}
+        {% endfor %}
+      
+{% endblock %}

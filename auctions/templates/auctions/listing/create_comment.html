@@ -1,0 +1,11 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Create Comment</h2>
+<form method="post">
+    {% csrf_token %}
+    <textarea name="text" rows="4" cols="50"></textarea>
+    <button type="submit">Submit</button>
+</form>
+    
+{% endblock %}

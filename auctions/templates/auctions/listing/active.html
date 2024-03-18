@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="padding-left: 20px; padding-bottom: 10px;">Active Listings</h2>
+    
+        {% for item in listings %}
+        {% if item.is_active %}
+
+        {% if forloop.counter0|divisibleby:2 %}
+            <div class="row">
+        {% endif %}        
+        <div class="col-md-6" style="padding-bottom: 10px; padding-right: 10px; padding-left: 10px;">
+
+        <div class="listing_container">            
+            <table>                
+                <td>
+                    {% if item.image %}
+                    <a href="/auctions/listing/{{ item.id }}"><img src="{{ item.image.url }}" style="width: 200px; height: 200px;" alt="Listing Image" class="img-fluid"></a><br>
+                    {% endif %}
+                </td>
+                <td class="table_margin" style="padding-left: 10px;">
+                    <h4><a href="/auctions/listing/{{ item.id }}">{{ item.title }}</a></h4>
+                    <b>Price: ${{ item.start_bid }}</b></br>
+                    Listing Id: {{ item.id }}. {{ item.text }}<br>
+                    <p class="created_at">Created at: {{ item.created_at }}</p>    
+
+                    <form method="post" action="{% url 'listing_detail' item.pk %}">
+                        {% csrf_token %} 
+                        <button type="submit" class="btn btn-primary btn-sm" value="Bid">Bid</button>
+                    </form>   
+                </td>
+            </table>
+        </div>
+        </div>
+        <br>
+        {% if forloop.counter|divisibleby:2 or forloop.last %}
+            </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+      
+{% endblock %}

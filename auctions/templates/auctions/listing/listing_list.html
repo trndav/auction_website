@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="padding-left: 20px; padding-bottom: 10px;">Listings</h2>
+    <ul>
+        {% for item in listings %}
+            <li>{{ item.title }}</li>
+            <li>{{ item.text }}</li>
+            <li>{{ item.start_bid }}</li>
+            <li><img src="{{ item.image.url }}" style="width: 200px; height: 200px;" alt="Listing Image" class="img-fluid"></li>
+
+            <form method="post" action="{% url 'delete_listing' item.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="Delete">
+            </form>            
+        {% endfor %}
+    </ul>
+{% endblock %}
