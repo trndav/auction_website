@@ -12,9 +12,9 @@ python manage.py migrate
 
 ### Content
 Users can 
-*create listing, 
-*comment, 
-*bid, 
-*add to watchlist, 
-*close their auction. 
-*Admins can add categories.
+* create listing, 
+* comment, 
+* bid, 
+* add to watchlist, 
+* close their auction. 
+* Admins can add categories.
